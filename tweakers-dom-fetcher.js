@@ -16,7 +16,7 @@
 function handleMessage(request, sender, sendResponse) {
 	var productData = [];
 	productData['title'] = document.getElementById("entity").getElementsByTagName("header")[0].getElementsByTagName("h1")[0].getElementsByTagName("a")[0].innerText.trim()
-	productData['price'] = document.getElementById("listing").getElementsByTagName("tbody")[0].firstElementChild.getElementsByClassName("shop-price")[0].innerText.substring(1).trim();
+	productData['price'] = document.getElementById("listing").getElementsByTagName("tbody")[0].firstElementChild.getElementsByClassName("shop-price")[0].innerText.substring(1).replace(',-', '').replace(',', '.').trim();
 	productData['url'] = window.location.href;
 
 	sendResponse({response: productData});
