@@ -4,7 +4,7 @@
   "author": "Kevin Heruer <k.heruer@gmail.com>",
   "homepage_url": "https://github.com/laetificat/tweakers-to-google-docs",
   "name": "Tweakers to Google Docs",
-  "version": "1.0",
+  "version": "1.1",
   "permissions": [
     "menus",
     "tabs",

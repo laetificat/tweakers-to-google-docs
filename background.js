@@ -22,6 +22,12 @@ if (!browser.tabs.onActivated.hasListener(onTabActivatedListener)) {
 	browser.tabs.onActivated.addListener(onTabActivatedListener);
 }
 
+// Check if the listener already exists
+if (!browser.windows.onFocusChanged.hasListener(onWindowFocusChangedListener)) {
+	// Listen for the window on focus chqnge event
+	browser.windows.onFocusChanged.addListener(onWindowFocusChangedListener);
+}
+
 /**
 * Checks if the given tab matches http(s)://(www.)tweakers.net/pricewatch/(id)/(slug).html
 * and creates a context (right click) menu item with a contextMenuItemOnClickListener.
@@ -116,6 +122,34 @@ function contextMenuItemOnClickListener(info, tab) {
 */
 function onTabActivatedListener(activeInfo) {
 	browser.tabs.get(activeInfo.tabId).then(createContextMenus, onGetTabPromiseError);
+}
+
+function onWindowFocusChangedListener(windowId) {
+	browser.windows.getCurrent({populate: true}).then(function(windowObject) {
+		createContextMenus(getActiveTabFromWindowObject(windowObject));
+	}).catch(getActiveTabFromWindowObjectError);
+}
+
+/**
+* Loop through the tabs from the window object and return the ID from the one that is active.
+*
+* @param windowObject
+*/
+var getActiveTabFromWindowObject = function(windowObject) {
+	for (let tab of windowObject.tabs) {
+		if (tab.active == true) {
+			return tab;
+		}
+	}
+
+	return {};
+}
+
+/**
+* Handles the active windows callback error,
+*/
+var getActiveTabFromWindowObjectError = function(error) {
+	console.log("Failed to get the current window: " + error)
 }
 
 /**
